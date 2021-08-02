@@ -17,10 +17,8 @@ XmlBuilder forward := method(
 
 XmlBuilder squareBrackets := method(
     call message arguments foreach(arg,
-         writepadding(2*depth); writeln("<li>")
          content := self doMessage(arg);
-         if(content type == "Sequence", writepadding(2*(self depth + 1)); writeln(content))
-         writepadding(2*depth); writeln("</li>")
+         writepadding(2*depth); writeln("<li>", content, "</li>")
     )
 )
 

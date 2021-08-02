@@ -15,4 +15,15 @@ XmlBuilder forward := method(
     writeln("</", call message name, ">")
 )
 
+XmlBuilder squareBrackets := method(
+    call message arguments foreach(arg,
+         writepadding(2*depth); writeln("<li>")
+         content := self doMessage(arg);
+         if(content type == "Sequence", writepadding(2*(self depth + 1)); writeln(content))
+         writepadding(2*depth); writeln("</li>")
+    )
+)
+
 XmlBuilder ul(li("Roger"), li("Lawrence"), li("Mommy"), li("Daddy"))
+"" println
+XmlBuilder ul(["Roger", "Lawrence", "Mommy", "Daddy"])

@@ -1,6 +1,3 @@
-rows([], []).
-rows([(Row, _)|QueensTail], [Row|RowsTail]) :- rows(QueensTail, RowsTail).
-
 columns([], []).
 columns([(_, Column)|QueensTail], [Column|ColumnsTail]) :- columns(QueensTail, ColumnsTail).
 
@@ -14,25 +11,26 @@ diagonals2([(Row, Column)|QueensTail], [Diagonal|DiagonalTail]) :-
     Diagonal is (Column + Row),
     diagonals2(QueensTail, DiagonalTail).
 
-valid_queen((Row, Column)) :-
-    Range = [1, 2, 3, 4],
-    member(Row, Range),
-    member(Column, Range).
+generate_one_to_n(0, []).
+generate_one_to_n(N, [Head|Tail]) :-
+    Head is N,
+    N1 is N-1,
+    generate_one_to_n(N1, Tail).
+
+
+valid_queen((Row, Column)) :- member(Column, [1, 2, 3, 4, 5, 6, 7, 8]).
 
 valid_board([]).
 valid_board([Head|Tail]) :- valid_queen(Head), valid_board(Tail).
     
 queens(Board) :-
-    Size is 4,
-    length(Board, Size),
+    Board = [(1, _), (2, _), (3, _), (4, _), (5, _), (6, _), (7, _), (8, _)],
     valid_board(Board),
 
-    rows(Board, Rows),
     columns(Board, Columns),
     diagonals1(Board, Diagonals1),
     diagonals2(Board, Diagonals2),
 
-    fd_all_different(Rows),
     fd_all_different(Columns),
     fd_all_different(Diagonals1),
     fd_all_different(Diagonals2).

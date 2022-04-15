@@ -10,7 +10,16 @@ module Main where
     isPrime 1 = False
     isPrime n = all (\x -> (mod n x) /= 0) [2..(n-1)]
 
-    primes = filter isPrime [2..]
+    primesSlow = filter isPrime [2..]
+
+    nextPrime :: [Integer] -> Integer
+    nextPrime currentPrimes = head (filter isRelativePrime [((last currentPrimes)+2)..])
+        where isRelativePrime n = all (\x -> (mod n x) /= 0) currentPrimes
+
+    primeRecursion :: [Integer] -> [Integer]
+    primeRecursion primesSoFar = (nextPrime primesSoFar):primeRecursion(primesSoFar ++ [(nextPrime primesSoFar)])
+
+    primes = 2:3:(primeRecursion [2, 3])
 
     main :: IO ()
     main = return ()
